@@ -14,6 +14,6 @@ async def upload_user_image(
         raise HTTPException(status_code=400, detail="Invalid file type. Only JPEG and PNG are allowed.")
 
     # Delegate to the service to handle the file and metadata
-    saved_filename = await UserService.process_and_save_user_image(user_id, image)
+    saved_filename, errors = await UserService.process_and_save_user_image(user_id, image)
 
-    return {"message": "Image uploaded successfully!", "filename": saved_filename}
+    return {"message": "Image uploaded successfully!", "filename": saved_filename, "errors: ": errors}

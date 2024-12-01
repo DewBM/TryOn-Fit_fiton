@@ -2,6 +2,8 @@ import os
 import uuid
 import aiofiles  # For asynchronous file operations
 from fastapi import UploadFile
+from app.utils.validation import *
+from segment_anything import SamAutomaticMaskGenerator, sam_model_registry
 
 # Directory to store uploaded images
 UPLOAD_DIR = "uploads"
@@ -32,8 +34,13 @@ class UserService:
             content = await image.read()
             await f.write(content)
 
+
+        # validate the uploaded image
+        errors = validate_image(file_path, "")
+
         # Here you can insert metadata into a database, like user ID and file path
         # Example: db.insert({"user_id": user_id, "file_path": file_path})
         print(f"User {user_id} uploaded a file saved as {unique_filename}")
 
-        return unique_filename
+
+        return unique_filename, errors

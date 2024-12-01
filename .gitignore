@@ -3,3 +3,5 @@ uploads/
 .idea/
 .vscode/
 *__pycache__*
+images/
+yolov8n.pt
