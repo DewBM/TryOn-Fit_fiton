@@ -9,5 +9,5 @@ def validate_image(image_path, segmentation_model):
     errors.extend(validate_lighting(image_path))
     # errors.extend(validate_background(image_path, segmentation_model))
     errors.extend(validate_background(image_path))
-    errors.extend(validate_clothing(image_path))
+    # errors.extend(validate_clothing(image_path))
     return errors

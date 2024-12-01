@@ -2,11 +2,12 @@ import os
 import uuid
 import aiofiles  # For asynchronous file operations
 from fastapi import UploadFile
+from dotenv import load_dotenv
 from app.utils.validation import *
 from segment_anything import SamAutomaticMaskGenerator, sam_model_registry
 
 # Directory to store uploaded images
-UPLOAD_DIR = "uploads"
+UPLOAD_DIR = os.getenv("USER_IMAGE_DIR")
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 
@@ -24,7 +25,7 @@ class UserService:
         """
         # Generate a unique filename based on UUID
         file_extension = os.path.splitext(image.filename)[-1]
-        unique_filename = f"{uuid.uuid4()}{file_extension}"
+        unique_filename = f"user_{user_id}_image{file_extension}"
 
         # File path for saving
         file_path = os.path.join(UPLOAD_DIR, unique_filename)
@@ -43,4 +44,4 @@ class UserService:
         print(f"User {user_id} uploaded a file saved as {unique_filename}")
 
 
-        return unique_filename, errors
+        return file_path, errors

@@ -5,3 +5,6 @@ uploads/
 *__pycache__*
 images/
 yolov8n.pt
+user_images/
+generated/
+.env

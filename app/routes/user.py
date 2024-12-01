@@ -1,3 +1,4 @@
+import os
 from fastapi import APIRouter, UploadFile, File, Form, HTTPException
 from app.services.user_service import UserService
 
@@ -16,4 +17,17 @@ async def upload_user_image(
     # Delegate to the service to handle the file and metadata
     saved_filename, errors = await UserService.process_and_save_user_image(user_id, image)
 
-    return {"message": "Image uploaded successfully!", "filename": saved_filename, "errors: ": errors}
+    if (len(errors)==0):
+        return {
+            "isSuccess": True,
+            "msg" : "Image uploaded successfully"
+        }
+
+    else:
+        if os.path.exists(saved_filename):
+            os.remove(saved_filename)
+        return {
+            "isSuccess": False,
+            "msg" : "Image validation failed. Try uploading another image.",
+            "errord": errors
+        }
