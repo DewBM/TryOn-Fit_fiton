@@ -1,1 +1,5 @@
 .venv/
+uploads/
+.idea/
+.vscode/
+*__pycache__*
