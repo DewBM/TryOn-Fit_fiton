@@ -1,8 +1,13 @@
 from fastapi import FastAPI
+from app.routes import user
 
 app = FastAPI()
 
+# Include the user routes
+app.include_router(user.router)
 
+
+# Root route
 @app.get("/")
-async def root():
-    return {"message": "Hello World"}
+def root():
+    return {"message": "Welcome to the Image Upload API!"}
