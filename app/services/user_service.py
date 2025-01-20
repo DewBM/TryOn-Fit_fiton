@@ -4,11 +4,10 @@ import aiofiles  # For asynchronous file operations
 from fastapi import UploadFile
 from dotenv import load_dotenv
 from app.utils.validation import *
+from app.utils.image_handler import *
 from segment_anything import SamAutomaticMaskGenerator, sam_model_registry
 
-# Directory to store uploaded images
-UPLOAD_DIR = os.getenv("USER_IMAGE_DIR")
-os.makedirs(UPLOAD_DIR, exist_ok=True)
+
 
 
 class UserService:
@@ -23,17 +22,10 @@ class UserService:
         :param image: The uploaded file object.
         :return: The name of the saved file.
         """
-        # Generate a unique filename based on UUID
-        file_extension = os.path.splitext(image.filename)[-1]
-        unique_filename = f"user_{user_id}_image{file_extension}"
-
-        # File path for saving
-        file_path = os.path.join(UPLOAD_DIR, unique_filename)
-
-        # Save the file asynchronously
-        async with aiofiles.open(file_path, "wb") as f:
-            content = await image.read()
-            await f.write(content)
+    
+        imageHandler = UserImageHandler()
+        file_path = await imageHandler.saveUserImage(user_id, image)
+        
 
 
         # validate the uploaded image
@@ -41,7 +33,7 @@ class UserService:
 
         # Here you can insert metadata into a database, like user ID and file path
         # Example: db.insert({"user_id": user_id, "file_path": file_path})
-        print(f"User {user_id} uploaded a file saved as {unique_filename}")
+        print(f"User {user_id} uploaded a file saved as {file_path}")
 
 
         return file_path, errors

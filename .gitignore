@@ -8,3 +8,5 @@ yolov8n.pt
 user_images/
 generated/
 .env
+tmp/
+sam_vit_h_4b8939.pth

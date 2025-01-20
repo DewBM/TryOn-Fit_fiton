@@ -29,5 +29,5 @@ async def upload_user_image(
         return {
             "isSuccess": False,
             "msg" : "Image validation failed. Try uploading another image.",
-            "errord": errors
+            "error": errors
         }
